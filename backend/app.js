@@ -3,10 +3,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const options = {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+};
 
-var app = express();
+mongoose
+  .connect(process.env.DB_URI, options)
+  .then(() => console.log('Connected to DB'))
+  .catch((err) => console.error('Could not connect to DB', err));
 
 app.use(logger('dev'));
 app.use(express.json());
