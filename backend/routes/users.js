@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-const { attachUserToRequest } = require('../middleware/attach-user.middleware');
+const express = require('express');
+const router = express.Router();
+const User = require('../models/userSchema');
 const { validateAccessToken } = require('../middleware/auth0.middleware');
 
 /* GET users listing. */
