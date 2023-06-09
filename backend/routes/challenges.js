@@ -11,7 +11,7 @@ router.get('/all', async function (req, res, next) {
     const challenges = await Challenge.find();
     res.status(200).json(challenges);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetchign challenges: ', error });
+    res.status(500).json({ message: 'Error fetching challenges: ', error });
   }
 });
 
