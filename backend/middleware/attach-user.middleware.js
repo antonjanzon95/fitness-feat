@@ -1,4 +1,4 @@
-const { User } = require('../models/userSchema');
+const User = require('../models/userSchema');
 
 async function attachUserToRequest(req, res, next) {
   const { auth0Id } = req.user;
