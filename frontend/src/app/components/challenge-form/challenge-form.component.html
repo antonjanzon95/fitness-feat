@@ -25,5 +25,13 @@
     </mat-date-range-picker>
   </mat-form-field>
 
+  <div>
+    <mat-label>Visibility:</mat-label>
+    <mat-radio-group formControlName="visibility">
+      <mat-radio-button value="public">Public</mat-radio-button>
+      <mat-radio-button value="private">Private</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
   <button mat-raised-button color="primary" type="submit" [disabled]="challengeForm.invalid">Submit</button>
 </form>

@@ -25,6 +25,7 @@ export class ChallengeFormComponent {
       description: ['', Validators.required],
       startDate: [new Date(), Validators.required],
       endDate: [new Date(), Validators.required],
+      visibility: ['', Validators.required],
     });
   }
 
@@ -34,16 +35,16 @@ export class ChallengeFormComponent {
     const challengeData = {
       name: this.challengeForm.value.name,
       description: this.challengeForm.value.description,
+      visibility: this.challengeForm.value.visibility,
       startDate: this.challengeForm.value.startDate,
       endDate: this.challengeForm.value.endDate,
     };
-
-    console.log(challengeData);
 
     this.challengeService
       .addChallenge(
         challengeData.name,
         challengeData.description,
+        challengeData.visibility,
         challengeData.startDate,
         challengeData.endDate
       )
