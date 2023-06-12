@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AuthModule } from '@auth0/auth0-angular';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './views/about/about.component';
@@ -17,7 +16,6 @@ import { ContactComponent } from './views/contact/contact.component';
 import { HomeComponent } from './views/home/home.component';
 import { ChallengeFormComponent } from './components/challenge-form/challenge-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
@@ -25,6 +23,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
+import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
+import { ChallengeComponent } from './components/challenge/challenge.component';
+import { ChallengesTableComponent } from './components/challenges-table/challenges-table.component';
+import { ChallengesComponent } from './components/challenges/challenges.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +44,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     HeroComponent,
     WorkoutFormComponent,
     ChallengeFormComponent,
+    UserDashboardComponent,
+    ChallengeComponent,
+    ChallengesTableComponent,
+    ChallengesComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +71,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatSnackBarModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatMenuModule,
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
