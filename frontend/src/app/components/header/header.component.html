@@ -1,12 +1,17 @@
-<header class="h-20 bg-slate-100 flex justify-center items-center">
-  <nav>
-    <ul class="flex gap-12">
-      <li *ngFor="let link of links">
-        <a [routerLink]="link.path">{{link.name}}</a>
-      </li>
-    </ul>
-  </nav>
-
-  <app-user-profile></app-user-profile>
-  <app-auth-button></app-auth-button>
+<header class="">
+  <mat-toolbar color="primary" class="flex justify-between">
+    <span>Fitness Feat</span>
+    <div class="flex items-center">
+      <app-user-profile></app-user-profile>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item *ngFor="let link of links">
+          <a [routerLink]="link.path">{{link.name}}</a>
+        </button>
+        <button mat-menu-item><app-auth-button></app-auth-button></button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
 </header>
