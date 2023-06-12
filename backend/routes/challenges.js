@@ -33,14 +33,14 @@ router.get(
 );
 
 router.post(
-  '/create',
+  '/add',
   validateAccessToken,
   attachUserToRequest,
   async function (req, res, next) {
-    const { name, startDate, endDate } = req.body;
+    const { name, description, startDate, endDate } = req.body;
     const { dbUser } = req.user;
 
-    const user = User.findById(dbUser._id);
+    const user = await User.findById(dbUser._id);
 
     if (!user) {
       return res
@@ -52,6 +52,7 @@ router.post(
       const newChallenge = await Challenge.create({
         name: name,
         creator: user._id,
+        description: description,
         startDate: startDate,
         endDate: endDate,
         participants: [user._id],

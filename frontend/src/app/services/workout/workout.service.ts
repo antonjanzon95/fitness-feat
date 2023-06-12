@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { Observable, from, switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { getAccessTokenHeaders } from 'src/app/helpers/auth0.helper';
 
 @Injectable({
