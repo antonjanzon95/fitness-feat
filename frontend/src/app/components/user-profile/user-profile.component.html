@@ -1,7 +1,4 @@
-<div *ngIf="auth.user$ | async as user" class="flex gap-8">
-  <div class="">
-    <p>{{ user.name }}</p>
-    <p>{{ user.email }}</p>
-  </div>
+<div *ngIf="auth.user$ | async as user" class="flex gap-2 items-center">
+  <p>{{ user.name }}</p>
   <img [src]="user.picture" alt="User portrait" class="w-10 h-10 rounded-full">
 </div>
