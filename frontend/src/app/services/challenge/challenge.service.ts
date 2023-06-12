@@ -1,9 +1,42 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
+import { Observable, switchMap } from 'rxjs';
+import { getAccessTokenHeaders } from 'src/app/helpers/auth0.helper';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChallengeService {
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
-  constructor() { }
+  getChallenges(): Observable<any> {
+    return getAccessTokenHeaders(this.auth).pipe(
+      switchMap((headers) => {
+        return this.http.get('http://localhost:3000/challenges', { headers });
+      })
+    );
+  }
+
+  addChallenge(
+    name: string,
+    description: string,
+    startDate: Date,
+    endDate: Date
+  ): Observable<any> {
+    return getAccessTokenHeaders(this.auth).pipe(
+      switchMap((headers) => {
+        return this.http.post(
+          'http://localhost:3000/challenges/add',
+          {
+            name: name,
+            description: description,
+            startDate: startDate,
+            endDate: endDate,
+          },
+          { headers }
+        );
+      })
+    );
+  }
 }
