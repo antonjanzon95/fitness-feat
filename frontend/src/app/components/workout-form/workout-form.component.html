@@ -1,18 +1,23 @@
 <form [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="type">Type:</label>
-    <input type="text" id="type" formControlName="type" required>
-  </div>
+  <mat-form-field>
+    <mat-label>Type:</mat-label>
+    <input matInput type="text" formControlName="type" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Duration (minutes):</mat-label>
+    <input matInput type="number" formControlName="duration" required>
+  </mat-form-field>
 
   <div>
-    <label for="duration">Duration:</label>
-    <input type="number" id="duration" formControlName="duration" required>
+    <mat-label>Intensity:</mat-label>
+    <mat-radio-group formControlName="intensity">
+      <mat-radio-button value="low">Low</mat-radio-button>
+      <mat-radio-button value="medium">Medium</mat-radio-button>
+      <mat-radio-button value="high">High</mat-radio-button>
+    </mat-radio-group>
   </div>
 
-  <div>
-    <label for="intensity">Intensity:</label>
-    <input type="text" id="intensity" formControlName="intensity" required>
-  </div>
+  <button mat-raised-button color="primary" type="submit" [disabled]="workoutForm.invalid">Submit</button>
 
-  <button type="submit" [disabled]="workoutForm.invalid">Submit</button>
 </form>
