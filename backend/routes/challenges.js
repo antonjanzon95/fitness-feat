@@ -8,7 +8,11 @@ const User = require('../models/userSchema');
 
 router.get('/all', async function (req, res, next) {
   try {
-    const challenges = await Challenge.find();
+    const challenges = await Challenge.find({ visibility: 'public' }).populate(
+      'creator',
+      'name'
+    );
+
     res.status(200).json(challenges);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching challenges: ', error });
