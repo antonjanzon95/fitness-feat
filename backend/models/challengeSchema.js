@@ -5,6 +5,7 @@ const challengeSchema = new mongoose.Schema({
   description: String,
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
+  visibility: String,
   creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

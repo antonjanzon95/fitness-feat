@@ -37,7 +37,7 @@ router.post(
   validateAccessToken,
   attachUserToRequest,
   async function (req, res, next) {
-    const { name, description, startDate, endDate } = req.body;
+    const { name, description, visibility, startDate, endDate } = req.body;
     const { dbUser } = req.user;
 
     const user = await User.findById(dbUser._id);
@@ -53,6 +53,7 @@ router.post(
         name: name,
         creator: user._id,
         description: description,
+        visibility: visibility,
         startDate: startDate,
         endDate: endDate,
         participants: [user._id],

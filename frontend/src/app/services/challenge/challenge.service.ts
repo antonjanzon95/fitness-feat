@@ -13,7 +13,9 @@ export class ChallengeService {
   getChallenges(): Observable<any> {
     return getAccessTokenHeaders(this.auth).pipe(
       switchMap((headers) => {
-        return this.http.get('http://localhost:3000/challenges', { headers });
+        return this.http.get('http://localhost:3000/challenges/all', {
+          headers,
+        });
       })
     );
   }
@@ -21,6 +23,7 @@ export class ChallengeService {
   addChallenge(
     name: string,
     description: string,
+    visibility: string,
     startDate: Date,
     endDate: Date
   ): Observable<any> {
@@ -31,6 +34,7 @@ export class ChallengeService {
           {
             name: name,
             description: description,
+            visibility: visibility,
             startDate: startDate,
             endDate: endDate,
           },
