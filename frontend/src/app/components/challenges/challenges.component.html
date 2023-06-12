@@ -1,0 +1,5 @@
+<app-challenges-table *ngIf="challenges.length > 0 && !currentChallenge" [challenges]="challenges"
+  (challengeSelected)="setCurrentChallenge($event)"></app-challenges-table>
+
+<app-challenge *ngIf="currentChallenge" [currentChallenge]="currentChallenge"
+  (resetViewEmit)="resetCurrentChallenge()"></app-challenge>
