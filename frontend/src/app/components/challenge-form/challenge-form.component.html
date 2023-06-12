@@ -1,0 +1,29 @@
+<form #form="ngForm" [formGroup]="challengeForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Challenge name:</mat-label>
+    <input matInput type="text" formControlName="name" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Challenge description:</mat-label>
+    <textarea matInput type="text" formControlName="description" required></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Start and end date</mat-label>
+    <mat-date-range-input [rangePicker]="rangePicker">
+      <input matStartDate formControlName="startDate" placeholder="Start date">
+      <input matEndDate formControlName="endDate" placeholder="End date">
+    </mat-date-range-input>
+    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+    <mat-date-range-picker #rangePicker>
+      <mat-date-range-picker-actions>
+        <button mat-button matDateRangePickerCancel>Cancel</button>
+        <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
+      </mat-date-range-picker-actions>
+    </mat-date-range-picker>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="challengeForm.invalid">Submit</button>
+</form>
