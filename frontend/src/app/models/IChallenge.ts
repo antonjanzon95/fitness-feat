@@ -6,5 +6,5 @@ export interface IChallenge {
   startDate: Date;
   endDate: Date;
   description: string;
-  participants: string[];
+  participants: IUser[];
 }
