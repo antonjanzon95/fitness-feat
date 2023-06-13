@@ -10,6 +10,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const challengesRouter = require('./routes/challenges');
 const workoutsRouter = require('./routes/workouts');
+const weightEntryRouter = require('./routes/weightEntry');
 
 const app = express();
 
@@ -34,5 +35,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/challenges', challengesRouter);
 app.use('/workouts', workoutsRouter);
+app.use('/weightEntry', weightEntryRouter);
 
 module.exports = app;
