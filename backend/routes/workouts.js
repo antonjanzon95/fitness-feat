@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const Workout = require('../models/workoutSchema');
 const { attachUserToRequest } = require('../middleware/attach-user.middleware');
 const { validateAccessToken } = require('../middleware/auth0.middleware');
+const User = require('../models/userSchema');
 
 router.get(
   '/',
@@ -29,7 +29,14 @@ router.post(
     const { type, duration, intensity } = req.body;
     const { dbUser } = req.user;
 
+    const user = await User.findById(dbUser._id);
+
+    if (!user) return res.status(404).json({ message: 'No user found' });
+
     try {
+      user.totalWorkoutTime += duration;
+      await user.save();
+
       const newWorkout = await Workout.create({
         user: dbUser._id,
         date: Date.now(),
