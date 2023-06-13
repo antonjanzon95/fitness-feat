@@ -18,12 +18,17 @@ export class UserService {
     );
   }
 
-  addUser(name: string, email: string, auth0Id: string): Observable<any> {
+  addUser(
+    name: string,
+    email: string,
+    auth0Id: string,
+    picture: string
+  ): Observable<any> {
     return getAccessTokenHeaders(this.auth).pipe(
       switchMap((headers) => {
         return this.http.post(
           'http://localhost:3000/users/login',
-          { name: name, email: email, auth0Id: auth0Id },
+          { name: name, email: email, auth0Id: auth0Id, picture: picture },
           { headers }
         );
       })

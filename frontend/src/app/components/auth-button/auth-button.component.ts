@@ -37,15 +37,17 @@ export class AuthButtonComponent implements OnInit {
         switchMap(() => this.auth.user$)
       )
       .subscribe((user) => {
-        if (user && user.name && user.email && user.sub) {
-          this.userService.addUser(user.name, user.email, user.sub).subscribe({
-            next: (val) => {
-              console.log(val);
-            },
-            error: (err) => {
-              console.error(err);
-            },
-          });
+        if (user && user.name && user.email && user.sub && user.picture) {
+          this.userService
+            .addUser(user.name, user.email, user.sub, user.picture)
+            .subscribe({
+              next: (val) => {
+                console.log(val);
+              },
+              error: (err) => {
+                console.error(err);
+              },
+            });
         }
       });
   }
