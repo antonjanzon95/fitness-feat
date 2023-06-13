@@ -27,10 +27,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 import { ChallengeComponent } from './components/challenge/challenge.component';
 import { ChallengesTableComponent } from './components/challenges-table/challenges-table.component';
 import { ChallengesComponent } from './components/challenges/challenges.component';
+import { ChallengeStandingsComponent } from './components/challenge-standings/challenge-standings.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +51,7 @@ import { ChallengesComponent } from './components/challenges/challenges.componen
     ChallengeComponent,
     ChallengesTableComponent,
     ChallengesComponent,
+    ChallengeStandingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,6 +79,8 @@ import { ChallengesComponent } from './components/challenges/challenges.componen
     MatIconModule,
     MatMenuModule,
     MatTableModule,
+    MatCardModule,
+    MatTooltipModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
