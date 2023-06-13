@@ -8,10 +8,10 @@ const User = require('../models/userSchema');
 
 router.get('/all', async function (req, res, next) {
   try {
-    const challenges = await Challenge.find({ visibility: 'public' }).populate(
-      'creator',
-      'name'
-    );
+    const challenges = await Challenge.find({ visibility: 'public' })
+      .populate('creator', 'name picture')
+      .populate('participants', 'name picture')
+      .exec();
 
     res.status(200).json(challenges);
   } catch (error) {
