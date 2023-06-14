@@ -1,1 +1,9 @@
-<p>user-dashboard works!</p>
+<h1 class="text-center text-2xl my-4">User dashboard</h1>
+
+<mat-tab-group dynamicHeight>
+  <mat-tab class="p-4" label="User Information"><app-user-information-form
+      [user]="user"></app-user-information-form></mat-tab>
+  <mat-tab label="Progress"> Content 2 </mat-tab>
+  <mat-tab label="Workouts"> Content 3 </mat-tab>
+  <mat-tab label="Challenges"><app-challenges></app-challenges></mat-tab>
+</mat-tab-group>
