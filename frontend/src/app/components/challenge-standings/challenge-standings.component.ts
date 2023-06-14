@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { IChallenge } from 'src/app/models/IChallenge';
-import { IUser } from 'src/app/models/IUser';
 
 @Component({
   selector: 'app-challenge-standings',
