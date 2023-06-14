@@ -29,11 +29,18 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 import { ChallengeComponent } from './components/challenge/challenge.component';
 import { ChallengesTableComponent } from './components/challenges-table/challenges-table.component';
 import { ChallengesComponent } from './components/challenges/challenges.component';
 import { ChallengeStandingsComponent } from './components/challenge-standings/challenge-standings.component';
+import { environment } from 'src/environments/environment.development';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { getStorage, provideStorage } from '@angular/fire/storage';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { LayoutModule } from '@angular/cdk/layout';
+import { UserInformationFormComponent } from './components/user-information-form/user-information-form.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +59,7 @@ import { ChallengeStandingsComponent } from './components/challenge-standings/ch
     ChallengesTableComponent,
     ChallengesComponent,
     ChallengeStandingsComponent,
+    UserInformationFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,6 +89,11 @@ import { ChallengeStandingsComponent } from './components/challenge-standings/ch
     MatTableModule,
     MatCardModule,
     MatTooltipModule,
+    MatTabsModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideStorage(() => getStorage()),
+    MatGridListModule,
+    LayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
