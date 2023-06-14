@@ -1,29 +1,35 @@
-<section *ngIf="currentChallenge">
-  <h2>{{ currentChallenge.name }}</h2>
-
-  <app-challenge-standings [currentChallenge]="currentChallenge"></app-challenge-standings>
-
-  <mat-card class="w-80 justify-center">
-    <mat-card-header>
-      <mat-card-title>Progress</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="flex">
-
-    </mat-card-content>
-  </mat-card>
-
-  <mat-card class="w-80">
-    <mat-card-header>
-      <mat-card-title>Participants</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="flex">
-      <a *ngFor="let user of currentChallenge.participants" [matTooltip]="user.name"
-        [routerLink]="['/user-profile', user.id]">
-        <img [src]="user.picture" alt="User portrait" class="w-12 h-12 rounded-full" />
-      </a>
-    </mat-card-content>
-  </mat-card>
-
-
-  <button mat-raised-button (click)="resetView()">Back</button>
+<section *ngIf="currentChallenge" class="flex flex-col gap-6 p-6 justify-center items-center container mx-auto">
+  <div class="laptop:w-[700px] flex flex-col gap-6 justify-center container mx-auto">
+    <div class="flex justify-between items-center laptop:w-full min-w-[320px]">
+      <h2 class="font-semibold text-xl">{{ currentChallenge.name }}</h2>
+      <span>{{ daysRemaining }} days remaining</span>
+    </div>
+    <article *ngIf="currentChallenge.description">
+      <h3>About this challenge:</h3>
+      <p>{{ currentChallenge.description }}</p>
+    </article>
+    <app-challenge-standings [currentChallenge]="currentChallenge"
+      class="laptop:w-full min-w-[320px]"></app-challenge-standings>
+    <div class="flex flex-col gap-7">
+      <mat-card class="min-w-[320px] max-w-[600px] laptop:max-w-full">
+        <mat-card-header>
+          <mat-card-title>Progress</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="flex">
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="min-w-[320px] max-w-[600px] laptop:max-w-full">
+        <mat-card-header>
+          <mat-card-title>Participants</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <a *ngFor="let user of currentChallenge.participants" [matTooltip]="user.name"
+            [routerLink]="['/user-profile', user.id]" class="mx-auto">
+            <img [src]="user.picture" alt="User portrait" class="w-12 h-12 rounded-full" />
+          </a>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <button mat-raised-button (click)="resetView()" class="mx-auto">Back</button>
+  </div>
 </section>
