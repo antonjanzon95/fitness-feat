@@ -18,6 +18,14 @@ export class UserService {
     );
   }
 
+  getUser(): Observable<any> {
+    return getAccessTokenHeaders(this.auth).pipe(
+      switchMap((headers) => {
+        return this.http.get('http://localhost:3000/users/user', { headers });
+      })
+    );
+  }
+
   addUser(
     name: string,
     email: string,
