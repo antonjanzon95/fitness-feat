@@ -5,11 +5,6 @@ const { validateAccessToken } = require('../middleware/auth0.middleware');
 const { attachUserToRequest } = require('../middleware/attach-user.middleware');
 const { v4: uuidv4 } = require('uuid');
 
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
-});
-
 router.get(
   '/user',
   validateAccessToken,
@@ -27,6 +22,26 @@ router.get(
   }
 );
 
+router.post(
+  '/user/image',
+  validateAccessToken,
+  attachUserToRequest,
+  async (req, res, next) => {
+    const { dbUser } = req.user;
+    const { imageUrl } = req.body;
+
+    try {
+      const user = await User.findById(dbUser._id);
+      user.picture = imageUrl;
+      await user.save();
+
+      return res.status(201).json(user);
+    } catch (error) {
+      return res.status(500).json({ message: 'Error updating user image' });
+    }
+  }
+);
+
 router.post('/login', validateAccessToken, async (req, res, next) => {
   const { auth0Id, name, email, picture } = req.body;
 
@@ -37,14 +52,14 @@ router.post('/login', validateAccessToken, async (req, res, next) => {
   }
 
   try {
-    await User.create({
+    const user = await User.create({
       auth0Id: auth0Id,
       id: uuidv4(),
       name: name,
       email: email,
       picture: picture,
     });
-    res.status(201).json({ message: 'User successfully added' });
+    res.status(201).json(user);
   } catch (error) {
     res.status(500).json({ message: 'Error adding user ' + error });
   }
