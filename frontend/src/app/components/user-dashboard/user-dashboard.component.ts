@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { IUser } from 'src/app/models/IUser';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -8,15 +9,18 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./user-dashboard.component.css'],
 })
 export class UserDashboardComponent implements OnInit {
-  user: IUser | undefined;
+  user$: Observable<IUser | null> | undefined;
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
+    this.user$ = this.userService.user$;
+  }
+
+  updateUser() {
     this.userService.getUser().subscribe({
-      next: (val) => {
-        console.log(val);
-        this.user = val;
+      next: () => {
+        console.log('test');
       },
       error: (err) => {
         console.error(err);

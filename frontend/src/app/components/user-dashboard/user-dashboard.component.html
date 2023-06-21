@@ -2,7 +2,7 @@
 
 <mat-tab-group dynamicHeight>
   <mat-tab class="p-4" label="User Information"><app-user-information-form
-      [user]="user"></app-user-information-form></mat-tab>
+      [user]="user$ | async"></app-user-information-form></mat-tab>
   <mat-tab label="Progress"> Content 2 </mat-tab>
   <mat-tab label="Workouts"> Content 3 </mat-tab>
   <mat-tab label="Challenges"><app-challenges></app-challenges></mat-tab>
