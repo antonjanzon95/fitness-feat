@@ -31,7 +31,7 @@ router.post(
       }
 
       const firebaseToken = await createFirebaseToken(auth0Id);
-      res.status(200).json({ firebaseToken });
+      res.status(200).json(firebaseToken);
     } catch (error) {
       console.error(error);
       res.status(500).send('Error creating Firebase token');
