@@ -41,6 +41,9 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { LayoutModule } from '@angular/cdk/layout';
 import { UserInformationFormComponent } from './components/user-information-form/user-information-form.component';
+import { StoreModule } from '@ngrx/store';
+import { userReducer } from './state/user/user.reducer';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -94,6 +97,8 @@ import { UserInformationFormComponent } from './components/user-information-form
     provideStorage(() => getStorage()),
     MatGridListModule,
     LayoutModule,
+    StoreModule.forRoot({ user: userReducer }, {}),
+    EffectsModule.forRoot([]),
   ],
   providers: [],
   bootstrap: [AppComponent],
