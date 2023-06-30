@@ -17,8 +17,6 @@ import {
 import { getAuth, signInWithCustomToken } from '@angular/fire/auth';
 import { IUser } from 'src/app/models/IUser';
 import { FirebaseService } from 'src/app/services/firebase/firebase.service';
-import { UserService } from 'src/app/services/user/user.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-information-form',
@@ -26,17 +24,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./user-information-form.component.css'],
 })
 export class UserInformationFormComponent implements OnChanges {
-  @Input() user: IUser | null | undefined;
-  @Output() userChanged = new EventEmitter();
+  @Input() user: IUser | undefined;
+  @Output() updateUserImage = new EventEmitter();
+  @Output() updateUserInfo = new EventEmitter();
   userForm: FormGroup | undefined;
 
   private readonly storage: Storage = inject(Storage);
 
   constructor(
     private formbuilder: FormBuilder,
-    private firebaseService: FirebaseService,
-    private userService: UserService,
-    private snackBar: MatSnackBar
+    private firebaseService: FirebaseService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -47,7 +44,6 @@ export class UserInformationFormComponent implements OnChanges {
 
   initializeForm() {
     this.userForm = this.formbuilder.group({
-      imageUrl: [this.user?.picture, Validators.required],
       name: [this.user?.name, Validators.required],
       workoutTime: [{ value: this.user?.workoutTime || 0, disabled: true }],
       startingWeight: [this.user?.startingWeight, Validators.required],
@@ -89,28 +85,7 @@ export class UserInformationFormComponent implements OnChanges {
               },
               () => {
                 getDownloadURL(task.snapshot.ref).then((url) => {
-                  this.userService.updateUserImage(url).subscribe({
-                    next: (user) => {
-                      this.userChanged.emit();
-                      this.snackBar.open(
-                        'Successfully changed svatar!',
-                        'Close',
-                        {
-                          duration: 3000,
-                        }
-                      );
-                    },
-                    error: (err) => {
-                      console.error(err);
-                      this.snackBar.open(
-                        'Failed to change avatar. Try again.',
-                        'Close',
-                        {
-                          duration: 3000,
-                        }
-                      );
-                    },
-                  });
+                  this.updateUserImage.emit(url);
                 });
               }
             );
@@ -130,11 +105,12 @@ export class UserInformationFormComponent implements OnChanges {
     if (this.userForm.invalid) return;
 
     const userData = {
-      image: this.userForm.value.imageUrl,
+      name: this.userForm.value.name,
       startingWeight: this.userForm.value.startingWeight,
       currentWeight: this.userForm.value.currentWeight,
     };
 
     // todo
+    this.updateUserInfo.emit(userData);
   }
 }
