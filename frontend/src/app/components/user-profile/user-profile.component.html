@@ -1,4 +1,8 @@
 <div *ngIf="user$ | async as user" class="flex gap-2 items-center">
   <p>{{ user.name }}</p>
-  <img [src]="user.picture" alt="User portrait" class="w-10 h-10 rounded-full">
+  <img
+    [src]="user.picture"
+    alt="User portrait"
+    class="w-10 h-10 rounded-full"
+  />
 </div>
