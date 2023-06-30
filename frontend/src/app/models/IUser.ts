@@ -7,3 +7,9 @@ export interface IUser {
   currentWeight?: number;
   startingWeight?: number;
 }
+
+export interface IUserInfo {
+  name?: string;
+  currentWeight?: number;
+  startingWeight?: number;
+}
