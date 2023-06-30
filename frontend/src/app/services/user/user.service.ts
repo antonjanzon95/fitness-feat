@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
-import { BehaviorSubject, Observable, from, switchMap, tap } from 'rxjs';
+import { AuthService, User } from '@auth0/auth0-angular';
+import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
 import { getAccessTokenHeaders } from 'src/app/helpers/auth0.helper';
 import { IUser } from 'src/app/models/IUser';
 
@@ -9,15 +9,11 @@ import { IUser } from 'src/app/models/IUser';
   providedIn: 'root',
 })
 export class UserService {
+  constructor(private http: HttpClient, private auth: AuthService) {}
+
   private userSubject = new BehaviorSubject<IUser | null>(null);
 
   user$ = this.userSubject.asObservable();
-
-  constructor(private http: HttpClient, private auth: AuthService) {}
-
-  setUser(user: IUser) {
-    this.userSubject.next(user);
-  }
 
   getUsers(): Observable<any> {
     return getAccessTokenHeaders(this.auth).pipe(
@@ -53,17 +49,17 @@ export class UserService {
     );
   }
 
-  addUser(
-    name: string,
-    email: string,
-    auth0Id: string,
-    picture: string
-  ): Observable<any> {
+  addUser(user: User): Observable<any> {
     return getAccessTokenHeaders(this.auth).pipe(
       switchMap((headers) => {
         return this.http.post<IUser>(
           'http://localhost:3000/users/login',
-          { name: name, email: email, auth0Id: auth0Id, picture: picture },
+          {
+            name: user.name,
+            email: user.email,
+            auth0Id: user['auth0Id'],
+            picture: user.picture,
+          },
           { headers }
         );
       }),
