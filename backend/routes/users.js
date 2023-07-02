@@ -45,10 +45,11 @@ router.post(
 router.post('/login', validateAccessToken, async (req, res, next) => {
   const { auth0Id, name, email, picture } = req.body;
 
-  const userExists = await User.findOne({ auth0Id: auth0Id });
+  const userFromDb = await User.findOne({ email: email }).populate();
+  console.log(userFromDb);
 
-  if (userExists) {
-    return res.status(200).json({ message: 'User who exists logged in' });
+  if (userFromDb) {
+    return res.status(200).json(userFromDb);
   }
 
   try {
