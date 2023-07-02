@@ -57,7 +57,7 @@ export class UserService {
           {
             name: user.name,
             email: user.email,
-            auth0Id: user['auth0Id'],
+            auth0Id: user.sub,
             picture: user.picture,
           },
           { headers }
