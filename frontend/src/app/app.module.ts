@@ -98,7 +98,7 @@ import { EffectsModule } from '@ngrx/effects';
     MatGridListModule,
     LayoutModule,
     StoreModule.forRoot({ user: userReducer }, {}),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([UserEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],
