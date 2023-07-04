@@ -1,10 +1,9 @@
 import {
   Component,
   EventEmitter,
-  Input,
-  OnChanges,
+  OnDestroy,
+  OnInit,
   Output,
-  SimpleChanges,
   inject,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -17,38 +16,54 @@ import {
 import { getAuth, signInWithCustomToken } from '@angular/fire/auth';
 import { IUser } from 'src/app/models/IUser';
 import { FirebaseService } from 'src/app/services/firebase/firebase.service';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/state/app.state';
+import { selectCurrentUser } from 'src/app/state/user/user.selector';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-information-form',
   templateUrl: './user-information-form.component.html',
   styleUrls: ['./user-information-form.component.css'],
 })
-export class UserInformationFormComponent implements OnChanges {
-  @Input() user: IUser | undefined;
+export class UserInformationFormComponent implements OnDestroy, OnInit {
+  user$ = this.store.select(selectCurrentUser);
+  user: IUser | null = null;
   @Output() updateUserImage = new EventEmitter();
   @Output() updateUserInfo = new EventEmitter();
-  userForm: FormGroup | undefined;
+  userForm: FormGroup = this.formbuilder.group({});
+  subscription: Subscription | undefined;
 
   private readonly storage: Storage = inject(Storage);
 
   constructor(
     private formbuilder: FormBuilder,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private store: Store<IAppState>
   ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['user']) {
-      this.initializeForm();
-    }
+  ngOnInit(): void {
+    this.subscription = this.user$.subscribe((user: IUser | null) => {
+      console.log(user);
+      if (user) {
+        this.user = user;
+        this.initializeForm();
+      }
+    });
   }
 
   initializeForm() {
+    console.log(this.user);
     this.userForm = this.formbuilder.group({
       name: [this.user?.name, Validators.required],
       workoutTime: [{ value: this.user?.workoutTime || 0, disabled: true }],
       startingWeight: [this.user?.startingWeight, Validators.required],
       currentWeight: [this.user?.currentWeight, Validators.required],
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) this.subscription.unsubscribe();
   }
 
   handleFileInput(input: HTMLInputElement) {

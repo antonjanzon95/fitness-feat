@@ -1,4 +1,5 @@
-<form *ngIf="userForm" #form="ngForm" [formGroup]="userForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6 p-4">
+<form *ngIf="user$ | async as user" #form="ngForm" [formGroup]="userForm" (ngSubmit)="onSubmit()"
+  class="flex flex-col gap-6 p-4">
   <div class="mx-auto grid place-items-center gap-4">
     <img *ngIf="user?.picture" [src]="user?.picture" alt="User Avatar" class="w-20 rounded-full">
     <input hidden type="file" #upload (change)="handleFileInput(upload)">
