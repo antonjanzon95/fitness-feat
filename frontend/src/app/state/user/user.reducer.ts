@@ -18,17 +18,17 @@ export const userReducer = createReducer(
   initialState,
   on(UserActions.login, (state) => ({
     ...state,
-    status: 'loading',
+    status: 'loading' as 'loading',
   })),
   on(UserActions.loginFailure, (state, { error }) => ({
     ...state,
     error: error,
-    status: 'error',
+    status: 'error' as 'error',
   })),
   on(UserActions.loginSuccess, (state, { user }) => ({
     ...state,
     user: user,
     error: null,
-    status: 'success',
+    status: 'success' as 'success',
   }))
 );
