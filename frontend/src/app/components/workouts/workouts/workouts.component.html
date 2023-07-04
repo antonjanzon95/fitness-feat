@@ -1,0 +1,9 @@
+<app-workout-form></app-workout-form>
+
+<div *ngIf="workouts$ | async as workouts">
+  <p *ngFor="let workout of workouts">
+    {{ workout.type }}
+  </p>
+</div>
+
+<!-- <button (click)="">Add new workout</button> -->
