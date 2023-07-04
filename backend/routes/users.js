@@ -46,7 +46,6 @@ router.post('/login', validateAccessToken, async (req, res, next) => {
   const { auth0Id, name, email, picture } = req.body;
 
   const userFromDb = await User.findOne({ email: email }).populate();
-  console.log(userFromDb);
 
   if (userFromDb) {
     return res.status(200).json(userFromDb);

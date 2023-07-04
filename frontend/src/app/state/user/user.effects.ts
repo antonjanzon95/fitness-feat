@@ -10,7 +10,6 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(UserActions.login),
       concatMap(({ user }) => {
-        console.log(user);
         return this.userService.addUser(user).pipe(
           map((response) => UserActions.loginSuccess({ user: response })),
           catchError((error) => of(UserActions.loginFailure({ error })))
