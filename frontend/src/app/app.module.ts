@@ -46,6 +46,8 @@ import { userReducer } from './state/user/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { UserEffects } from './state/user/user.effects';
+import { WorkoutsComponent } from './components/workouts/workouts/workouts.component';
+import { workoutsReducer } from './state/workouts/workouts.reducer';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,7 @@ import { UserEffects } from './state/user/user.effects';
     ChallengesComponent,
     ChallengeStandingsComponent,
     UserInformationFormComponent,
+    WorkoutsComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,7 +102,7 @@ import { UserEffects } from './state/user/user.effects';
     provideStorage(() => getStorage()),
     MatGridListModule,
     LayoutModule,
-    StoreModule.forRoot({ user: userReducer }, {}),
+    StoreModule.forRoot({ user: userReducer, workouts: workoutsReducer }, {}),
     EffectsModule.forRoot([UserEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
