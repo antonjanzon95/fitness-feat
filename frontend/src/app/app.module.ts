@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AuthModule } from '@auth0/auth0-angular';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -44,6 +44,8 @@ import { UserInformationFormComponent } from './components/user-information-form
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './state/user/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { UserEffects } from './state/user/user.effects';
 
 @NgModule({
   declarations: [
@@ -99,6 +101,7 @@ import { EffectsModule } from '@ngrx/effects';
     LayoutModule,
     StoreModule.forRoot({ user: userReducer }, {}),
     EffectsModule.forRoot([UserEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [],
   bootstrap: [AppComponent],
