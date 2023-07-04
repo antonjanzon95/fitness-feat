@@ -13,7 +13,7 @@ router.get(
     const { dbUser } = req.user;
 
     try {
-      const workouts = await Workout.find({ _id: dbUser._id });
+      const workouts = await Workout.findById(dbUser._id);
       res.status(200).json(workouts);
     } catch (error) {
       res.status(500).json({ message: 'Error fetching workouts: ', error });
@@ -38,7 +38,7 @@ router.post(
       await user.save();
 
       const newWorkout = await Workout.create({
-        user: dbUser._id,
+        user: user._id,
         date: Date.now(),
         type: type,
         duration: duration,
