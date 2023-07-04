@@ -58,6 +58,7 @@ router.post('/login', validateAccessToken, async (req, res, next) => {
       name: name,
       email: email,
       picture: picture,
+      totalWorkoutTime: 0,
     });
     res.status(201).json(user);
   } catch (error) {
