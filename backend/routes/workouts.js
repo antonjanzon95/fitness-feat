@@ -13,7 +13,8 @@ router.get(
     const { dbUser } = req.user;
 
     try {
-      const workouts = await Workout.findById(dbUser._id);
+      const workouts = await Workout.find({ user: dbUser._id });
+
       res.status(200).json(workouts);
     } catch (error) {
       res.status(500).json({ message: 'Error fetching workouts: ', error });
