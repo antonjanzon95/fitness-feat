@@ -1,23 +1,26 @@
 <form [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
-  <mat-form-field>
-    <mat-label>Type:</mat-label>
-    <input matInput type="text" formControlName="type" required>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Duration (minutes):</mat-label>
-    <input matInput type="number" formControlName="duration" required>
-  </mat-form-field>
-
-  <div>
-    <mat-label>Intensity:</mat-label>
-    <mat-radio-group formControlName="intensity">
-      <mat-radio-button value="low">Low</mat-radio-button>
-      <mat-radio-button value="medium">Medium</mat-radio-button>
-      <mat-radio-button value="high">High</mat-radio-button>
-    </mat-radio-group>
+  <h1 mat-dialog-title>New workout:</h1>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label>Type:</mat-label>
+      <input matInput type="text" formControlName="type" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Duration (minutes):</mat-label>
+      <input matInput type="number" formControlName="duration" required>
+    </mat-form-field>
+    <div>
+      <mat-label>Intensity:</mat-label>
+      <mat-radio-group formControlName="intensity">
+        <mat-radio-button value="low">Low</mat-radio-button>
+        <mat-radio-button value="medium">Medium</mat-radio-button>
+        <mat-radio-button value="high">High</mat-radio-button>
+      </mat-radio-group>
+    </div>
   </div>
-
-  <button mat-raised-button color="primary" type="submit" [disabled]="workoutForm.invalid">Submit</button>
-
+  <div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button mat-dialog-close color="primary" type="submit"
+      [disabled]="workoutForm.invalid">Submit</button>
+  </div>
 </form>
