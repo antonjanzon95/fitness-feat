@@ -30,5 +30,20 @@ export const workoutsReducer = createReducer(
     workouts: workouts,
     error: null,
     status: 'success' as 'success',
+  })),
+  on(WorkoutActions.addWorkout, (state) => ({
+    ...state,
+    status: 'loading' as 'loading',
+  })),
+  on(WorkoutActions.addWorkoutFailure, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: 'error' as 'error',
+  })),
+  on(WorkoutActions.addWorkoutSuccess, (state, { workout }) => ({
+    ...state,
+    workouts: [...state.workouts, workout],
+    error: null,
+    status: 'success' as 'success',
   }))
 );
