@@ -29,7 +29,6 @@ export class AuthButtonComponent implements OnInit {
   constructor(
     @Inject(DOCUMENT) public document: Document,
     public auth: AuthService,
-    private userService: UserService,
     private store: Store
   ) {}
 
@@ -42,16 +41,6 @@ export class AuthButtonComponent implements OnInit {
       .subscribe((user) => {
         if (user && user.name && user.email && user.sub && user.picture) {
           this.store.dispatch(UserActions.login({ user }));
-          // this.userService
-          //   .addUser(user.name, user.email, user.sub, user.picture)
-          //   .subscribe({
-          //     next: (val) => {
-          //       console.log(val);
-          //     },
-          //     error: (err) => {
-          //       console.error(err);
-          //     },
-          //   });
         } else {
           this.store.dispatch(
             UserActions.loginFailure({ error: 'Login failed' })

@@ -44,7 +44,6 @@ export class UserInformationFormComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.subscription = this.user$.subscribe((user: IUser | null) => {
-      console.log(user);
       if (user) {
         this.user = user;
         this.initializeForm();
@@ -53,10 +52,9 @@ export class UserInformationFormComponent implements OnDestroy, OnInit {
   }
 
   initializeForm() {
-    console.log(this.user);
     this.userForm = this.formbuilder.group({
       name: [this.user?.name, Validators.required],
-      workoutTime: [{ value: this.user?.workoutTime || 0, disabled: true }],
+      workoutTime: [{ value: this.user?.workoutTime, disabled: true }],
       startingWeight: [this.user?.startingWeight, Validators.required],
       currentWeight: [this.user?.currentWeight, Validators.required],
     });
