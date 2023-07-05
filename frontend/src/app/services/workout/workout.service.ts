@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { Observable, switchMap } from 'rxjs';
 import { getAccessTokenHeaders } from 'src/app/helpers/auth0.helper';
+import { IWorkoutData } from 'src/app/models/IWorkout';
 
 @Injectable({
   providedIn: 'root',
@@ -18,16 +19,16 @@ export class WorkoutService {
     );
   }
 
-  addWorkout(
-    type: string,
-    duration: number,
-    intensity: string
-  ): Observable<any> {
+  addWorkout(workout: IWorkoutData): Observable<any> {
     return getAccessTokenHeaders(this.auth).pipe(
       switchMap((headers) => {
         return this.http.post(
           'http://localhost:3000/workouts/add',
-          { type: type, duration: duration, intensity: intensity },
+          {
+            type: workout.type,
+            duration: workout.duration,
+            intensity: workout.intensity,
+          },
           { headers }
         );
       })
