@@ -30,6 +30,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule } from '@angular/material/dialog';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 import { ChallengeComponent } from './components/challenge/challenge.component';
 import { ChallengesTableComponent } from './components/challenges-table/challenges-table.component';
@@ -48,6 +49,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { UserEffects } from './state/user/user.effects';
 import { WorkoutsComponent } from './components/workouts/workouts/workouts.component';
 import { workoutsReducer } from './state/workouts/workouts.reducer';
+import { WorkoutEffects } from './state/workouts/workouts.effects';
 
 @NgModule({
   declarations: [
@@ -98,12 +100,13 @@ import { workoutsReducer } from './state/workouts/workouts.reducer';
     MatCardModule,
     MatTooltipModule,
     MatTabsModule,
+    MatDialogModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideStorage(() => getStorage()),
     MatGridListModule,
     LayoutModule,
     StoreModule.forRoot({ user: userReducer, workouts: workoutsReducer }, {}),
-    EffectsModule.forRoot([UserEffects]),
+    EffectsModule.forRoot([UserEffects, WorkoutEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [],
