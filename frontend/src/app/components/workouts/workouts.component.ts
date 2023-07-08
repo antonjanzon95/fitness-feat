@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/state/app.state';
 import { WorkoutActions } from 'src/app/state/workouts/workouts.actions';
 import { selectAllWorkouts } from 'src/app/state/workouts/workouts.selectors';
-import { WorkoutFormComponent } from '../../workout-form/workout-form.component';
+import { WorkoutFormComponent } from '../workout-form/workout-form.component';
 import { Subscription } from 'rxjs';
 import { Actions, ofType } from '@ngrx/effects';
 import { MatSnackBar } from '@angular/material/snack-bar';
