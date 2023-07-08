@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService, User } from '@auth0/auth0-angular';
-import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { getAccessTokenHeaders } from 'src/app/helpers/auth0.helper';
 import { IUser } from 'src/app/models/IUser';
 
@@ -10,10 +10,6 @@ import { IUser } from 'src/app/models/IUser';
 })
 export class UserService {
   constructor(private http: HttpClient, private auth: AuthService) {}
-
-  private userSubject = new BehaviorSubject<IUser | null>(null);
-
-  user$ = this.userSubject.asObservable();
 
   getUsers(): Observable<any> {
     return getAccessTokenHeaders(this.auth).pipe(
@@ -31,8 +27,7 @@ export class UserService {
         return this.http.get<IUser>('http://localhost:3000/users/user', {
           headers,
         });
-      }),
-      tap((user: IUser) => this.userSubject.next(user))
+      })
     );
   }
 
@@ -44,8 +39,7 @@ export class UserService {
           { imageUrl },
           { headers }
         );
-      }),
-      tap((user: IUser) => this.userSubject.next(user))
+      })
     );
   }
 
@@ -62,8 +56,19 @@ export class UserService {
           },
           { headers }
         );
-      }),
-      tap((user: IUser) => this.userSubject.next(user))
+      })
+    );
+  }
+
+  newWeightEntry(weight: number): Observable<any> {
+    return getAccessTokenHeaders(this.auth).pipe(
+      switchMap((headers) => {
+        return this.http.post<IUser>(
+          'http://localhost:3000/weightEntry/add',
+          { weight: weight },
+          { headers }
+        );
+      })
     );
   }
 }
