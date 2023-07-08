@@ -26,9 +26,7 @@ router.post(
         timestamp: date,
       });
 
-      return res
-        .status(201)
-        .json({ message: 'Successfully added weight entry' });
+      return res.status(201).json(user);
     } catch (error) {
       return res
         .status(500)
