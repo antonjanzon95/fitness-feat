@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
-import { IUser, IUserInfo } from 'src/app/models/IUser';
+import { Store } from '@ngrx/store';
+import { IUserInfo } from 'src/app/models/IUser';
 import { UserService } from 'src/app/services/user/user.service';
+import { IAppState } from 'src/app/state/app.state';
+import { selectCurrentUser } from 'src/app/state/user/user.selector';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -10,16 +12,15 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./user-dashboard.component.css'],
 })
 export class UserDashboardComponent implements OnInit {
-  user$: Observable<IUser | null> | undefined;
+  user$ = this.store.select(selectCurrentUser);
 
   constructor(
     private userService: UserService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private store: Store<IAppState>
   ) {}
 
-  ngOnInit(): void {
-    this.user$ = this.userService.user$;
-  }
+  ngOnInit(): void {}
 
   updateUserImage(url: string) {
     this.userService.updateUserImage(url).subscribe({
