@@ -18,5 +18,21 @@ export class UserEffects {
     )
   );
 
+  weightEntry$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.newWeightEntry),
+      concatMap(({ weight }) => {
+        return this.userService.newWeightEntry(weight).pipe(
+          map((response) =>
+            UserActions.newWeightEntrySuccess({ user: response })
+          ),
+          catchError((error) =>
+            of(UserActions.newWeightEntryFailure({ error }))
+          )
+        );
+      })
+    )
+  );
+
   constructor(private actions$: Actions, private userService: UserService) {}
 }

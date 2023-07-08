@@ -30,5 +30,20 @@ export const userReducer = createReducer(
     user: user,
     error: null,
     status: 'success' as 'success',
+  })),
+  on(UserActions.newWeightEntry, (state) => ({
+    ...state,
+    status: 'loading' as 'loading',
+  })),
+  on(UserActions.newWeightEntryFailure, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: 'error' as 'error',
+  })),
+  on(UserActions.newWeightEntrySuccess, (state, { user }) => ({
+    ...state,
+    user: user,
+    error: null,
+    status: 'success' as 'success',
   }))
 );
