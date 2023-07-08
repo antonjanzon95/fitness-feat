@@ -47,9 +47,10 @@ import { userReducer } from './state/user/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { UserEffects } from './state/user/user.effects';
-import { WorkoutsComponent } from './components/workouts/workouts/workouts.component';
+import { WorkoutsComponent } from './components/workouts/workouts.component';
 import { workoutsReducer } from './state/workouts/workouts.reducer';
 import { WorkoutEffects } from './state/workouts/workouts.effects';
+import { WeightEntryFormComponent } from './components/weight-entry-form/weight-entry-form.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { WorkoutEffects } from './state/workouts/workouts.effects';
     ChallengeStandingsComponent,
     UserInformationFormComponent,
     WorkoutsComponent,
+    WeightEntryFormComponent,
   ],
   imports: [
     BrowserModule,
