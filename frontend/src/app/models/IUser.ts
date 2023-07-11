@@ -3,7 +3,7 @@ export interface IUser {
   id: string;
   name: string;
   picture: string;
-  workoutTime?: number;
+  totalWorkoutTime?: number;
   currentWeight?: number;
   startingWeight?: number;
 }
