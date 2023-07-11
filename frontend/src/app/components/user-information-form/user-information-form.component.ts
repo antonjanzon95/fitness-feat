@@ -20,6 +20,8 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/state/app.state';
 import { selectCurrentUser } from 'src/app/state/user/user.selector';
 import { Subscription } from 'rxjs';
+import { WeightEntryFormComponent } from '../weight-entry-form/weight-entry-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-information-form',
@@ -33,35 +35,43 @@ export class UserInformationFormComponent implements OnDestroy, OnInit {
   @Output() updateUserInfo = new EventEmitter();
   userForm: FormGroup = this.formbuilder.group({});
   subscription: Subscription | undefined;
+  imperial = false;
 
   private readonly storage: Storage = inject(Storage);
 
   constructor(
     private formbuilder: FormBuilder,
     private firebaseService: FirebaseService,
-    private store: Store<IAppState>
+    private store: Store<IAppState>,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.subscription = this.user$.subscribe((user: IUser | null) => {
       if (user) {
+        console.log(user);
         this.user = user;
         this.initializeForm();
       }
     });
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) this.subscription.unsubscribe();
+  }
+
   initializeForm() {
     this.userForm = this.formbuilder.group({
       name: [this.user?.name, Validators.required],
-      workoutTime: [{ value: this.user?.workoutTime, disabled: true }],
-      startingWeight: [this.user?.startingWeight, Validators.required],
-      currentWeight: [this.user?.currentWeight, Validators.required],
     });
   }
 
-  ngOnDestroy(): void {
-    if (this.subscription) this.subscription.unsubscribe();
+  openDialog(): void {
+    const dialogRef = this.dialog.open(WeightEntryFormComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
   }
 
   handleFileInput(input: HTMLInputElement) {

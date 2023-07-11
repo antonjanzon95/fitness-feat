@@ -1,31 +1,33 @@
-<form *ngIf="user$ | async as user" #form="ngForm" [formGroup]="userForm" (ngSubmit)="onSubmit()"
-  class="flex flex-col gap-6 p-4">
-  <div class="mx-auto grid place-items-center gap-4">
-    <img *ngIf="user?.picture" [src]="user?.picture" alt="User Avatar" class="w-20 rounded-full">
-    <input hidden type="file" #upload (change)="handleFileInput(upload)">
-    <button mat-raised-button color="secondary" (click)="upload.click()">Change Avatar</button>
-  </div>
+<section *ngIf="user$ | async as user" class="flex flex-col gap-6">
 
-  <mat-form-field class="mx-auto">
-    <mat-label>Name:</mat-label>
-    <input matInput type="text" formControlName="name" required>
-  </mat-form-field>
+  <form #form="ngForm" [formGroup]="userForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6 p-4">
+    <div class="mx-auto grid place-items-center gap-4">
+      <img *ngIf="user?.picture" [src]="user?.picture" alt="User Avatar" class="w-20 rounded-full">
+      <input hidden type="file" #upload (change)="handleFileInput(upload)">
+      <button mat-raised-button color="secondary" (click)="upload.click()">Change Avatar</button>
+    </div>
 
-  <mat-form-field class="mx-auto">
-    <mat-label>Total workout time (minutes):</mat-label>
-    <input matInput type="number" formControlName="workoutTime" required />
-  </mat-form-field>
+    <mat-form-field class="mx-auto">
+      <mat-label>Name:</mat-label>
+      <input matInput type="text" formControlName="name" required>
+    </mat-form-field>
 
-  <mat-form-field class="mx-auto">
-    <mat-label>Starting weight (kg):</mat-label>
-    <input matInput type="number" formControlName="startingWeight" required />
-  </mat-form-field>
+    <button mat-raised-button class="mx-auto" color="primary" type="submit" [disabled]="userForm.invalid">Save
+      changes</button>
+  </form>
 
-  <mat-form-field class="mx-auto">
-    <mat-label>Current weight (kg):</mat-label>
-    <input matInput type="number" formControlName="currentWeight" required />
-  </mat-form-field>
+  <mat-slide-toggle class="mx-auto" [(ngModel)]="imperial">{{imperial ? 'Imperial' : 'Metric'}}</mat-slide-toggle>
 
-  <button mat-raised-button class="mx-auto" color="primary" type="submit" [disabled]="userForm.invalid">Save
-    changes</button>
-</form>
+  <mat-list class="text-center">
+    <mat-list-item *ngIf="user.totalWorkoutTime">Total workout time: {{ user.totalWorkoutTime | minsToHours }}
+      hours</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item *ngIf="user.startingWeight">Starting weight: {{ user.startingWeight | weight:imperial
+      }}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item *ngIf="user.currentWeight">Current weight: {{ user.currentWeight | weight:imperial
+      }}</mat-list-item>
+  </mat-list>
+
+  <button mat-raised-button color="accent" (click)="openDialog()" class="mx-auto">New weight entry</button>
+</section>
