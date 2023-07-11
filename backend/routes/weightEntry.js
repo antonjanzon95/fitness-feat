@@ -26,6 +26,14 @@ router.post(
         timestamp: date,
       });
 
+      if (user.startingWeight === 0) {
+        user.startingWeight = weight;
+      }
+
+      user.currentWeight = weight;
+
+      await user.save();
+
       return res.status(201).json(user);
     } catch (error) {
       return res
