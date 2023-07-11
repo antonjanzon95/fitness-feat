@@ -59,6 +59,8 @@ router.post('/login', validateAccessToken, async (req, res, next) => {
       email: email,
       picture: picture,
       totalWorkoutTime: 0,
+      startingWeight: 0,
+      currentWeight: 0,
     });
     res.status(201).json(user);
   } catch (error) {
