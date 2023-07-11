@@ -31,6 +31,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 import { ChallengeComponent } from './components/challenge/challenge.component';
 import { ChallengesTableComponent } from './components/challenges-table/challenges-table.component';
@@ -51,6 +54,9 @@ import { WorkoutsComponent } from './components/workouts/workouts.component';
 import { workoutsReducer } from './state/workouts/workouts.reducer';
 import { WorkoutEffects } from './state/workouts/workouts.effects';
 import { WeightEntryFormComponent } from './components/weight-entry-form/weight-entry-form.component';
+import { MinsToHoursPipe } from './pipes/mins-to-hours.pipe';
+import { WeightPipe } from './pipes/weight.pipe';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -72,6 +78,8 @@ import { WeightEntryFormComponent } from './components/weight-entry-form/weight-
     UserInformationFormComponent,
     WorkoutsComponent,
     WeightEntryFormComponent,
+    MinsToHoursPipe,
+    WeightPipe,
   ],
   imports: [
     BrowserModule,
@@ -103,6 +111,10 @@ import { WeightEntryFormComponent } from './components/weight-entry-form/weight-
     MatTooltipModule,
     MatTabsModule,
     MatDialogModule,
+    MatListModule,
+    MatDividerModule,
+    MatSlideToggleModule,
+    FormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideStorage(() => getStorage()),
     MatGridListModule,
