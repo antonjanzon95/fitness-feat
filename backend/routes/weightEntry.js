@@ -5,6 +5,27 @@ const { validateAccessToken } = require('../middleware/auth0.middleware');
 const { attachUserToRequest } = require('../middleware/attach-user.middleware');
 const User = require('../models/userSchema');
 
+router.get(
+  '/',
+  validateAccessToken,
+  attachUserToRequest,
+  async function (req, res, next) {
+    const { dbUser } = req.user;
+
+    try {
+      const userWeightEntries = await WeightEntry.find({
+        user: dbUser._id,
+      }).populate();
+
+      return res.status(200).json(userWeightEntries);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: 'Error fetching weight entries: ', error });
+    }
+  }
+);
+
 router.post(
   '/add',
   validateAccessToken,
