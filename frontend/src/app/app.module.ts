@@ -57,6 +57,8 @@ import { WeightEntryFormComponent } from './components/weight-entry-form/weight-
 import { MinsToHoursPipe } from './pipes/mins-to-hours.pipe';
 import { WeightPipe } from './pipes/weight.pipe';
 import { FormsModule } from '@angular/forms';
+import { NgChartsModule } from 'ng2-charts';
+import { WeightChartComponent } from './components/weight-chart/weight-chart.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +82,7 @@ import { FormsModule } from '@angular/forms';
     WeightEntryFormComponent,
     MinsToHoursPipe,
     WeightPipe,
+    WeightChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -115,6 +118,7 @@ import { FormsModule } from '@angular/forms';
     MatDividerModule,
     MatSlideToggleModule,
     FormsModule,
+    NgChartsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideStorage(() => getStorage()),
     MatGridListModule,
