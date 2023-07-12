@@ -59,16 +59,4 @@ export class UserService {
       })
     );
   }
-
-  newWeightEntry(weight: number): Observable<any> {
-    return getAccessTokenHeaders(this.auth).pipe(
-      switchMap((headers) => {
-        return this.http.post<IUser>(
-          'http://localhost:3000/weightEntry/add',
-          { weight: weight },
-          { headers }
-        );
-      })
-    );
-  }
 }

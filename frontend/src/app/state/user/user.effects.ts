@@ -3,6 +3,7 @@ import { UserService } from 'src/app/services/user/user.service';
 import { UserActions } from './user.actions';
 import { catchError, concatMap, map, of } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { WeightEntryService } from 'src/app/services/weight-entry/weight-entry.service';
 
 @Injectable()
 export class UserEffects {
@@ -22,7 +23,7 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(UserActions.newWeightEntry),
       concatMap(({ weight }) => {
-        return this.userService.newWeightEntry(weight).pipe(
+        return this.weightEntryService.newWeightEntry(weight).pipe(
           map((response) =>
             UserActions.newWeightEntrySuccess({ user: response })
           ),
@@ -34,5 +35,9 @@ export class UserEffects {
     )
   );
 
-  constructor(private actions$: Actions, private userService: UserService) {}
+  constructor(
+    private actions$: Actions,
+    private userService: UserService,
+    private weightEntryService: WeightEntryService
+  ) {}
 }
