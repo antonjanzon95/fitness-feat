@@ -18,7 +18,10 @@ import { IUser } from 'src/app/models/IUser';
 import { FirebaseService } from 'src/app/services/firebase/firebase.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/state/app.state';
-import { selectCurrentUser } from 'src/app/state/user/user.selector';
+import {
+  selectCurrentUser,
+  selectWeightEntryError,
+} from 'src/app/state/user/user.selector';
 import { Subscription } from 'rxjs';
 import { WeightEntryFormComponent } from '../weight-entry-form/weight-entry-form.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -30,6 +33,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class UserInformationFormComponent implements OnDestroy, OnInit {
   user$ = this.store.select(selectCurrentUser);
+  weightEntryError$ = this.store.select(selectWeightEntryError);
   user: IUser | null = null;
   @Output() updateUserImage = new EventEmitter();
   @Output() updateUserInfo = new EventEmitter();
