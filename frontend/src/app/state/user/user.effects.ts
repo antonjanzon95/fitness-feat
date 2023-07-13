@@ -4,6 +4,7 @@ import { UserActions } from './user.actions';
 import { catchError, concatMap, map, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { WeightEntryService } from 'src/app/services/weight-entry/weight-entry.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class UserEffects {
@@ -27,11 +28,34 @@ export class UserEffects {
           map((response) =>
             UserActions.newWeightEntrySuccess({ user: response })
           ),
-          catchError((error) =>
-            of(UserActions.newWeightEntryFailure({ error }))
+          catchError((error: HttpErrorResponse) =>
+            of(
+              UserActions.newWeightEntryFailure({ error: error.error.message })
+            )
           )
         );
       })
+    )
+  );
+
+  getWeightEntries$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.getWeightEntries),
+      concatMap(() =>
+        this.weightEntryService.getWeightEntries().pipe(
+          map((response) => ({
+            entries: response,
+            type: UserActions.getWeightEntriesSuccess.type,
+          })),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              UserActions.getWeightEntriesFailure({
+                error: error.error.message,
+              })
+            )
+          )
+        )
+      )
     )
   );
 
