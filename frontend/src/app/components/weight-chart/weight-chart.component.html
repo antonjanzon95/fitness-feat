@@ -1,1 +1,4 @@
-<p>weight-chart works!</p>
+<ng-container *ngIf="weightEntries$ | async as weightEntries">
+  <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="lineChartType"></canvas>
+  <p>test</p>
+</ng-container>
