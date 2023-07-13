@@ -1,16 +1,23 @@
 import { createReducer, on } from '@ngrx/store';
 import { IUser } from 'src/app/models/IUser';
 import { UserActions } from './user.actions';
+import { IWeightEntry } from 'src/app/models/IWeightEntry';
 
 export interface UserState {
   user: IUser | null;
-  error: string | null;
+  weightEntries: IWeightEntry[] | null;
+  loginError: string | null;
+  weightEntryError: string | null;
+  getWeightEntriesError: string | null;
   status: 'pending' | 'loading' | 'error' | 'success';
 }
 
 export const initialState: UserState = {
   user: null,
-  error: null,
+  weightEntries: null,
+  loginError: null,
+  weightEntryError: null,
+  getWeightEntriesError: null,
   status: 'pending',
 };
 
@@ -22,13 +29,13 @@ export const userReducer = createReducer(
   })),
   on(UserActions.loginFailure, (state, { error }) => ({
     ...state,
-    error: error,
+    loginError: error,
     status: 'error' as 'error',
   })),
   on(UserActions.loginSuccess, (state, { user }) => ({
     ...state,
     user: user,
-    error: null,
+    loginError: null,
     status: 'success' as 'success',
   })),
   on(UserActions.newWeightEntry, (state) => ({
@@ -37,13 +44,28 @@ export const userReducer = createReducer(
   })),
   on(UserActions.newWeightEntryFailure, (state, { error }) => ({
     ...state,
-    error: error,
+    weightEntryError: error,
     status: 'error' as 'error',
   })),
   on(UserActions.newWeightEntrySuccess, (state, { user }) => ({
     ...state,
     user: user,
-    error: null,
+    weightEntryError: null,
+    status: 'success' as 'success',
+  })),
+  on(UserActions.getWeightEntries, (state) => ({
+    ...state,
+    status: 'loading' as 'loading',
+  })),
+  on(UserActions.getWeightEntriesFailure, (state, { error }) => ({
+    ...state,
+    getWeightEntriesError: error,
+    status: 'error' as 'error',
+  })),
+  on(UserActions.getWeightEntriesSuccess, (state, { entries }) => ({
+    ...state,
+    weightEntries: entries,
+    getWeightEntriesError: null,
     status: 'success' as 'success',
   }))
 );
