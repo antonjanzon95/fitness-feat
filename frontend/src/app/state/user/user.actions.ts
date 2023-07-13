@@ -1,6 +1,7 @@
 import { User } from '@auth0/auth0-angular';
 import { createAction, props } from '@ngrx/store';
 import { IUser } from 'src/app/models/IUser';
+import { IWeightEntry } from 'src/app/models/IWeightEntry';
 
 export const UserActions = {
   login: createAction('[Auth API] User Login', props<{ user: User }>()),
@@ -27,5 +28,14 @@ export const UserActions = {
   newWeightEntrySuccess: createAction(
     '[Weight Entry Form] Weight Entry Success',
     props<{ user: IUser }>()
+  ),
+  getWeightEntries: createAction('[Weight Chart] Get Weight Entries'),
+  getWeightEntriesFailure: createAction(
+    '[Weight Chart] Get Weight Entries Failure',
+    props<{ error: string }>()
+  ),
+  getWeightEntriesSuccess: createAction(
+    '[Weight Chart] Get Weight Entries Success',
+    props<{ entries: IWeightEntry[] }>()
   ),
 };
