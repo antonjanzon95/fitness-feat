@@ -41,6 +41,36 @@ router.post(
     }
 
     try {
+      const lastEntry = await WeightEntry.findOne({ user: user._id }).sort(
+        '-timestamp'
+      );
+
+      if (lastEntry) {
+        const nextEntryDate = new Date(lastEntry.timestamp);
+        nextEntryDate.setDate(nextEntryDate.getDate() + 7);
+
+        const now = new Date();
+
+        if (now < nextEntryDate) {
+          const timeLeft = (nextEntryDate - now) / 1000 / 60 / 60 / 24;
+
+          if (timeLeft < 1) {
+            timeLeft *= 24;
+            return res.status(400).json({
+              message: `You can only add one weight entry per week. ${Math.ceil(
+                timeLeft
+              )} hours left.`,
+            });
+          }
+
+          return res.status(400).json({
+            message: `You can only add one weight entry per week. ${Math.ceil(
+              timeLeft
+            )} ${timeLeft < 2 ? 'day' : 'days'} left.`,
+          });
+        }
+      }
+
       await WeightEntry.create({
         user: user._id,
         weight: weight,
