@@ -26,13 +26,29 @@ router.get(
   }
 );
 
+router.get('/challenge', validateAccessToken, async (req, res, next) => {
+  const { challenge } = req.body;
+
+  try {
+    const challengeWeightEntries = await WeightEntry.find({
+      challenge: challenge._id,
+    }).populate();
+
+    return res.status(200).json(challengeWeightEntries);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: 'Error fetching weight entries: ', error });
+  }
+});
+
 router.post(
-  '/add',
+  '/add/challenge',
   validateAccessToken,
   attachUserToRequest,
-  async function (req, res, next) {
+  async (req, res, next) => {
     const { dbUser } = req.user;
-    const { weight, date = new Date() } = req.body;
+    const { weight, date = new Date(), challenge } = req.body;
 
     const user = await User.findById(dbUser._id);
 
@@ -41,9 +57,10 @@ router.post(
     }
 
     try {
-      const lastEntry = await WeightEntry.findOne({ user: user._id }).sort(
-        '-timestamp'
-      );
+      const lastEntry = await WeightEntry.findOne({
+        user: user._id,
+        challenge: challenge._id,
+      }).sort('-timestamp');
 
       if (lastEntry) {
         const nextEntryDate = new Date(lastEntry.timestamp);
@@ -54,7 +71,14 @@ router.post(
         if (now < nextEntryDate) {
           const timeLeft = (nextEntryDate - now) / 1000 / 60 / 60 / 24;
 
-          if (timeLeft < 1) {
+          if (timeLeft < 0.041) {
+            timeLeft = timeLeft * 24 * 60;
+            return res.status(400).json({
+              message: `You can only add one weight entry per week. ${Math.ceil(
+                timeLeft
+              )} minutes left.`,
+            });
+          } else if (timeLeft < 1) {
             timeLeft *= 24;
             return res.status(400).json({
               message: `You can only add one weight entry per week. ${Math.ceil(
@@ -71,6 +95,45 @@ router.post(
         }
       }
 
+      await WeightEntry.create({
+        user: user._id,
+        weight: weight,
+        timestamp: date,
+        challenge: challenge._id,
+      });
+
+      if (user.startingWeight === 0) {
+        user.startingWeight = weight;
+      }
+
+      user.currentWeight = weight;
+
+      await user.save();
+
+      return res.status(201).json(user);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: 'Error adding weight entry: ', error });
+    }
+  }
+);
+
+router.post(
+  '/add',
+  validateAccessToken,
+  attachUserToRequest,
+  async function (req, res, next) {
+    const { dbUser } = req.user;
+    const { weight, date = new Date() } = req.body;
+
+    const user = await User.findById(dbUser._id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User doesn't exist" });
+    }
+
+    try {
       await WeightEntry.create({
         user: user._id,
         weight: weight,
