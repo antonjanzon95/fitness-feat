@@ -7,8 +7,7 @@ import {
   selectCurrentUser,
   selectWeightEntries,
 } from 'src/app/state/user/user.selector';
-import { Chart, ChartConfiguration, ChartEvent, ChartType } from 'chart.js';
-import { BaseChartDirective } from 'ng2-charts';
+import { ChartConfiguration, ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-weight-chart',
@@ -45,7 +44,7 @@ export class WeightChartComponent implements OnInit, OnDestroy {
     this.weightSubscription = this.weightEntries$.subscribe((entries) => {
       if (!entries) return;
       this.startingWeight = entries[0].weight;
-      if (!this.startingWeight) return;
+
       this.chartData = entries.map((entry, index) =>
         index === 0 ? 0 : entry.weight - this.startingWeight!
       );
