@@ -29,6 +29,18 @@ export const UserActions = {
     '[Weight Entry Form] Weight Entry Success',
     props<{ user: IUser }>()
   ),
+  newChallengeWeightEntry: createAction(
+    '[Weight Entry Form] New Challenge Weight Entry',
+    props<{ weight: number; challengeId: string }>()
+  ),
+  newChallengeWeightEntryFailure: createAction(
+    '[Weight Entry Form] New Challenge Weight Entry Failure',
+    props<{ error: string }>()
+  ),
+  newChallengeWeightEntrySuccess: createAction(
+    '[Weight Entry Form] New Challenge Weight Entry Success',
+    props<{ user: IUser }>()
+  ),
   getWeightEntries: createAction('[Weight Chart] Get Weight Entries'),
   getWeightEntriesFailure: createAction(
     '[Weight Chart] Get Weight Entries Failure',
