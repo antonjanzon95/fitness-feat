@@ -26,13 +26,13 @@ router.get(
   }
 );
 
-router.get('/challenge', validateAccessToken, async (req, res, next) => {
-  const { challenge } = req.body;
+router.post('/challenge', validateAccessToken, async (req, res, next) => {
+  const { challengeId } = req.body;
 
   try {
-    const challengeWeightEntries = await WeightEntry.find({
-      challenge: challenge._id,
-    }).populate();
+    const challengeWeightEntries = await WeightEntry.find(
+      challengeId
+    ).populate();
 
     return res.status(200).json(challengeWeightEntries);
   } catch (error) {
@@ -43,12 +43,12 @@ router.get('/challenge', validateAccessToken, async (req, res, next) => {
 });
 
 router.post(
-  '/add/challenge',
+  '/challenge/add',
   validateAccessToken,
   attachUserToRequest,
   async (req, res, next) => {
     const { dbUser } = req.user;
-    const { weight, date = new Date(), challenge } = req.body;
+    const { weight, date = new Date(), challengeId } = req.body;
 
     const user = await User.findById(dbUser._id);
 
@@ -59,7 +59,7 @@ router.post(
     try {
       const lastEntry = await WeightEntry.findOne({
         user: user._id,
-        challenge: challenge._id,
+        challenge: challengeId,
       }).sort('-timestamp');
 
       if (lastEntry) {
@@ -99,7 +99,7 @@ router.post(
         user: user._id,
         weight: weight,
         timestamp: date,
-        challenge: challenge._id,
+        challenge: challengeId,
       });
 
       if (user.startingWeight === 0) {
