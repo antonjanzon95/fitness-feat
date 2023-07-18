@@ -1,6 +1,6 @@
 <h1 class="text-center text-2xl my-4">User dashboard</h1>
 
-<mat-tab-group dynamicHeight>
+<mat-tab-group dynamicHeight (selectedIndexChange)="tabChanged($event)">
   <mat-tab class="p-4" label="User Information">
     <app-user-information-form></app-user-information-form>
   </mat-tab>

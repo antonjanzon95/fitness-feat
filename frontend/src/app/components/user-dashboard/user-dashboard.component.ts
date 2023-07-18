@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { IUserInfo } from 'src/app/models/IUser';
 import { UserService } from 'src/app/services/user/user.service';
 import { IAppState } from 'src/app/state/app.state';
+import { ChallengeActions } from 'src/app/state/challenges/challenges.actions';
 import { selectCurrentUser } from 'src/app/state/user/user.selector';
 
 @Component({
@@ -37,6 +38,12 @@ export class UserDashboardComponent implements OnInit {
         });
       },
     });
+  }
+
+  tabChanged(selectedIndex: number) {
+    if (selectedIndex == 0) {
+      this.store.dispatch(ChallengeActions.resetCurrentChallenge());
+    }
   }
 
   updateUserInfo(userData: IUserInfo) {}
