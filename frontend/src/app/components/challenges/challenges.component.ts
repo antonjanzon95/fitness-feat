@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { IChallenge } from 'src/app/models/IChallenge';
-import { ChallengeService } from 'src/app/services/challenge/challenge.service';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/state/app.state';
+import {
+  selectAllChallenges,
+  selectCurrentChallenge,
+} from 'src/app/state/challenges/challenger.selector';
+import { ChallengeActions } from 'src/app/state/challenges/challenges.actions';
 
 @Component({
   selector: 'app-challenges',
@@ -8,27 +13,16 @@ import { ChallengeService } from 'src/app/services/challenge/challenge.service';
   styleUrls: ['./challenges.component.css'],
 })
 export class ChallengesComponent implements OnInit {
-  challenges: IChallenge[] = [];
-  currentChallenge: IChallenge | undefined;
+  challenges$ = this.store.select(selectAllChallenges);
+  currentChallenge$ = this.store.select(selectCurrentChallenge);
 
-  constructor(private challengeService: ChallengeService) {}
+  constructor(private store: Store<IAppState>) {}
 
   ngOnInit(): void {
-    this.challengeService.getChallenges().subscribe({
-      next: (val) => {
-        this.challenges = val;
-      },
-      error: (err) => {
-        console.error(err);
-      },
-    });
+    this.store.dispatch(ChallengeActions.getChallenges());
   }
 
-  setCurrentChallenge(challenge: IChallenge): void {
-    this.currentChallenge = challenge;
-  }
-
-  resetCurrentChallenge(): void {
-    this.currentChallenge = undefined;
+  setCurrentChallenge(challengeId: string): void {
+    this.store.dispatch(ChallengeActions.getCurrentChallenge({ challengeId }));
   }
 }

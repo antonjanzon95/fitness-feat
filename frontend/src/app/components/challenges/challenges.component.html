@@ -1,5 +1,8 @@
-<app-challenges-table *ngIf="challenges.length > 0 && !currentChallenge" [challenges]="challenges"
-  (challengeSelected)="setCurrentChallenge($event)"></app-challenges-table>
+<ng-container *ngIf="(challenges$ | async) as challenges; else loading">
+  <app-challenges-table *ngIf="challenges.length > 0 && !(currentChallenge$ | async)"></app-challenges-table>
+  <app-challenge *ngIf="(currentChallenge$ | async)"></app-challenge>
+</ng-container>
 
-<app-challenge *ngIf="currentChallenge" [currentChallenge]="currentChallenge"
-  (resetViewEmit)="resetCurrentChallenge()"></app-challenge>
+<ng-template #loading>
+  Loading...
+</ng-template>
