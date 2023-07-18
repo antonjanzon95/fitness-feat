@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { Observable, switchMap } from 'rxjs';
 import { getAccessTokenHeaders } from 'src/app/helpers/auth0.helper';
+import { IChallenge } from 'src/app/models/IChallenge';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,18 @@ export class ChallengeService {
         return this.http.get('http://localhost:3000/challenges/all', {
           headers,
         });
+      })
+    );
+  }
+
+  getCurrentChallenge(challengeId: string): Observable<IChallenge> {
+    return getAccessTokenHeaders(this.auth).pipe(
+      switchMap((headers) => {
+        return this.http.post<IChallenge>(
+          'http://localhost:3000/challenges/current',
+          { challengeId },
+          { headers }
+        );
       })
     );
   }
