@@ -12,7 +12,7 @@ import { IWeightEntry } from 'src/app/models/IWeightEntry';
 export class WeightEntryService {
   constructor(private http: HttpClient, private auth: AuthService) {}
 
-  getWeightEntries(): Observable<any> {
+  getWeightEntries(): Observable<IWeightEntry[]> {
     return getAccessTokenHeaders(this.auth).pipe(
       switchMap((headers) => {
         return this.http.get<IWeightEntry[]>(
@@ -23,7 +23,7 @@ export class WeightEntryService {
     );
   }
 
-  newWeightEntry(weight: number): Observable<any> {
+  newWeightEntry(weight: number): Observable<IUser> {
     return getAccessTokenHeaders(this.auth).pipe(
       switchMap((headers) => {
         return this.http.post<IUser>(
