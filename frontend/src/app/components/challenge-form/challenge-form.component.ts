@@ -50,7 +50,6 @@ export class ChallengeFormComponent {
       )
       .subscribe({
         next: (val) => {
-          console.log(val);
           this.form.resetForm();
           this.snackBar.open(this.successMsg, 'Close', {
             duration: 3000,

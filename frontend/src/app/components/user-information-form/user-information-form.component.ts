@@ -53,7 +53,6 @@ export class UserInformationFormComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.subscription = this.user$.subscribe((user: IUser | null) => {
       if (user) {
-        console.log(user);
         this.user = user;
         this.initializeForm();
       }
@@ -82,7 +81,6 @@ export class UserInformationFormComponent implements OnDestroy, OnInit {
     if (!input.files) return;
 
     const file = input.files[0];
-    console.log(file);
 
     if (!file || !file.type.startsWith('image/')) {
       alert('Invalid file type, please upload an image');
