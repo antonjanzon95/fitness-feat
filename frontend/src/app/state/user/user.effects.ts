@@ -38,6 +38,28 @@ export class UserEffects {
     )
   );
 
+  challengeWeightEntry$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.newChallengeWeightEntry),
+      concatMap(({ weight, challengeId }) => {
+        return this.weightEntryService
+          .newChallengeWeightEntry(weight, challengeId)
+          .pipe(
+            map((response) =>
+              UserActions.newChallengeWeightEntrySuccess({ user: response })
+            ),
+            catchError((error: HttpErrorResponse) =>
+              of(
+                UserActions.newChallengeWeightEntryFailure({
+                  error: error.error.message,
+                })
+              )
+            )
+          );
+      })
+    )
+  );
+
   getWeightEntries$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.getWeightEntries),
