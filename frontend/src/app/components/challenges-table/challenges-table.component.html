@@ -1,4 +1,5 @@
-<table mat-table *ngIf="challenges" [dataSource]="challenges" class="mat-elevation-z8 demo-table">
+<table mat-table *ngIf="challenges$ | async as challenges" [dataSource]="challenges"
+  class="mat-elevation-z8 demo-table">
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef>Name</th>
     <td mat-cell *matCellDef="let challenge">{{challenge.name}}</td>
