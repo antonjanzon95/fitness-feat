@@ -37,6 +37,27 @@ router.get(
 );
 
 router.post(
+  '/current',
+  validateAccessToken,
+  attachUserToRequest,
+  async (req, res, next) => {
+    const { challengeId } = req.body;
+
+    try {
+      const challenge = await Challenge.findById(challengeId).populate(
+        'creator participants'
+      );
+
+      return res.status(200).json(challenge);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: 'Error fetching challenge: ', error });
+    }
+  }
+);
+
+router.post(
   '/add',
   validateAccessToken,
   attachUserToRequest,
