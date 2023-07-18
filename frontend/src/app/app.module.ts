@@ -59,6 +59,9 @@ import { WeightPipe } from './pipes/weight.pipe';
 import { FormsModule } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts';
 import { WeightChartComponent } from './components/weight-chart/weight-chart.component';
+import { ChallengeWeightChartComponent } from './components/challenge-weight-chart/challenge-weight-chart.component';
+import { challengesReducer } from './state/challenges/challenges.reducer';
+import { ChallengesEffects } from './state/challenges/challenges.effects';
 
 @NgModule({
   declarations: [
@@ -83,6 +86,7 @@ import { WeightChartComponent } from './components/weight-chart/weight-chart.com
     MinsToHoursPipe,
     WeightPipe,
     WeightChartComponent,
+    ChallengeWeightChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -123,8 +127,15 @@ import { WeightChartComponent } from './components/weight-chart/weight-chart.com
     provideStorage(() => getStorage()),
     MatGridListModule,
     LayoutModule,
-    StoreModule.forRoot({ user: userReducer, workouts: workoutsReducer }, {}),
-    EffectsModule.forRoot([UserEffects, WorkoutEffects]),
+    StoreModule.forRoot(
+      {
+        user: userReducer,
+        workouts: workoutsReducer,
+        challenges: challengesReducer,
+      },
+      {}
+    ),
+    EffectsModule.forRoot([UserEffects, WorkoutEffects, ChallengesEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [],
