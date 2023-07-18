@@ -34,4 +34,31 @@ export class WeightEntryService {
       })
     );
   }
+
+  getChallengeWeightEntries(challengeId: string): Observable<IWeightEntry[]> {
+    return getAccessTokenHeaders(this.auth).pipe(
+      switchMap((headers) => {
+        return this.http.post<IWeightEntry[]>(
+          'http://localhost:3000/weightEntry/challenge',
+          { challengeId },
+          { headers }
+        );
+      })
+    );
+  }
+
+  newChallengeWeightEntry(
+    weight: number,
+    challengeId: string
+  ): Observable<IUser> {
+    return getAccessTokenHeaders(this.auth).pipe(
+      switchMap((headers) => {
+        return this.http.post<IUser>(
+          'http://localhost:3000/weightEntry/challenge/add',
+          { weight: weight, challengeId: challengeId },
+          { headers }
+        );
+      })
+    );
+  }
 }
