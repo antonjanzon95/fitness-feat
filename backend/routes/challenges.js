@@ -84,6 +84,10 @@ router.post(
         participants: [user._id],
       });
 
+      user.challengesJoined.push(newChallenge._id);
+
+      await user.save();
+
       res.status(201).json(newChallenge);
     } catch (error) {
       res.status(500).json({ message: 'Error creating challenge: ', error });
