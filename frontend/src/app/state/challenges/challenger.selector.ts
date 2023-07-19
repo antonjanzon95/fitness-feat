@@ -15,3 +15,7 @@ export const selectAllChallengesError = createSelector(
   selectChallenges,
   (state: ChallengesState) => state.getChallengesError
 );
+export const selectCurrentChallengeWeightEntries = createSelector(
+  selectChallenges,
+  (state: ChallengesState) => state.currentChallengeWeightEntries
+);
