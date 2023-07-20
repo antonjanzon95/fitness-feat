@@ -50,12 +50,14 @@ export class WeightEntryFormComponent implements OnInit, OnDestroy {
           challengeId: this.challengeId,
         })
       );
+    } else {
+      this.store.dispatch(
+        UserActions.newWeightEntry({
+          weight: this.weightEntryForm.value.weight,
+        })
+      );
     }
-    this.store.dispatch(
-      UserActions.newWeightEntry({
-        weight: this.weightEntryForm.value.weight,
-      })
-    );
+
     this.weightEntryForm.reset();
   }
 
