@@ -6,6 +6,12 @@ const challengeSchema = new mongoose.Schema({
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   visibility: String,
+  weightEntries: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'WeightEntry',
+    },
+  ],
   creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
