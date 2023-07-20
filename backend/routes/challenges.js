@@ -44,9 +44,12 @@ router.post(
     const { challengeId } = req.body;
 
     try {
-      const challenge = await Challenge.findById(challengeId).populate(
-        'creator participants'
-      );
+      const challenge = await Challenge.findById(challengeId)
+        .populate('creator participants weightEntries')
+        .populate({
+          path: 'weightEntries',
+          populate: { path: 'user', select: 'name' },
+        });
 
       return res.status(200).json(challenge);
     } catch (error) {
@@ -81,6 +84,7 @@ router.post(
         visibility: visibility,
         startDate: startDate,
         endDate: endDate,
+        weightEntries: [],
         participants: [user._id],
       });
 
