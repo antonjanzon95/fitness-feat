@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, combineLatest } from 'rxjs';
 import { IAppState } from 'src/app/state/app.state';
 import { UserActions } from 'src/app/state/user/user.actions';
 import {
@@ -17,11 +17,9 @@ import { ChartConfiguration, ChartType } from 'chart.js';
 export class WeightChartComponent implements OnInit, OnDestroy {
   weightEntries$ = this.store.select(selectWeightEntries);
   user$ = this.store.select(selectCurrentUser);
-  weightSubscription: Subscription | undefined;
-  userSubscription: Subscription | undefined;
+  combinedSubscription: Subscription | undefined;
   startingWeight: number | undefined;
-
-  nameLabel: string = '';
+  isLoading: boolean = true;
   chartData: number[] = [];
   chartLabels: string[] = [];
 
@@ -36,21 +34,29 @@ export class WeightChartComponent implements OnInit, OnDestroy {
     store.dispatch(UserActions.getWeightEntries());
   }
 
-  private updateChartLabel() {
-    this.lineChartData.datasets[0].label = this.nameLabel;
+  private updateChartLabel(name: string) {
+    this.lineChartData.datasets[0].label = name;
   }
 
   ngOnInit() {
-    this.weightSubscription = this.weightEntries$.subscribe((entries) => {
-      if (!entries) return;
+    this.combinedSubscription = combineLatest([
+      this.weightEntries$,
+      this.user$,
+    ]).subscribe(([entries, user]) => {
+      if (!entries || !user) return;
       this.startingWeight = entries[0].weight;
 
       this.chartData = entries.map((entry, index) =>
         index === 0 ? 0 : entry.weight - this.startingWeight!
       );
-      this.chartLabels = entries.map((entry) => entry.timestamp.toString());
+      this.chartLabels = entries.map((entry, index) => `Week ${index + 1}`);
 
       this.lineChartOptions = {
+        elements: {
+          line: {
+            tension: 0.5,
+          },
+        },
         scales: {
           y: {
             suggestedMin: -10,
@@ -66,7 +72,7 @@ export class WeightChartComponent implements OnInit, OnDestroy {
         datasets: [
           {
             data: this.chartData,
-            label: this.nameLabel,
+            label: 'Weight',
             backgroundColor: 'rgba(148,159,177,0.2)',
             borderColor: 'rgba(148,159,177,1)',
             pointBackgroundColor: 'rgba(148,159,177,1)',
@@ -78,17 +84,14 @@ export class WeightChartComponent implements OnInit, OnDestroy {
         ],
         labels: this.chartLabels,
       };
-    });
 
-    this.userSubscription = this.user$.subscribe((user) => {
-      if (!user) return;
-      this.nameLabel = user.name;
-      this.updateChartLabel();
+      this.updateChartLabel(user.name);
+
+      this.isLoading = false;
     });
   }
 
   ngOnDestroy() {
-    this.weightSubscription?.unsubscribe();
-    this.userSubscription?.unsubscribe();
+    this.combinedSubscription?.unsubscribe();
   }
 }
