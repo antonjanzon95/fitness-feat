@@ -30,9 +30,9 @@ router.post('/challenge', validateAccessToken, async (req, res, next) => {
   const { challengeId } = req.body;
 
   try {
-    const challengeWeightEntries = await WeightEntry.find(
-      challengeId
-    ).populate();
+    const challengeWeightEntries = await WeightEntry.find({
+      challenge: challengeId,
+    }).populate('user');
 
     return res.status(200).json(challengeWeightEntries);
   } catch (error) {
