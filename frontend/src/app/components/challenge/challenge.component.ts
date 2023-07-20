@@ -20,7 +20,7 @@ import { selectWeightEntryError } from 'src/app/state/user/user.selector';
   templateUrl: './challenge.component.html',
   styleUrls: ['./challenge.component.css'],
 })
-export class ChallengeComponent implements OnChanges, OnInit, OnDestroy {
+export class ChallengeComponent implements OnInit, OnDestroy {
   currentChallenge$ = this.store.select(selectCurrentChallenge);
   weightEntryError$ = this.store.select(selectWeightEntryError);
   currentChallenge: IChallenge | undefined;
@@ -29,20 +29,13 @@ export class ChallengeComponent implements OnChanges, OnInit, OnDestroy {
 
   constructor(private store: Store<IAppState>, private dialog: MatDialog) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['currentChallenge$']) {
-      if (this.currentChallenge) {
-        this.daysRemaining = this.calculateDaysRemaining(
-          new Date(this.currentChallenge?.endDate)
-        );
-      }
-    }
-  }
-
   ngOnInit(): void {
     this.subscription = this.currentChallenge$.subscribe((result) => {
       if (result !== null) {
         this.currentChallenge = result;
+        this.daysRemaining = this.calculateDaysRemaining(
+          new Date(this.currentChallenge?.endDate)
+        );
       }
     });
   }

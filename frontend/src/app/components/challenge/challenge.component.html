@@ -1,6 +1,10 @@
-<section *ngIf="currentChallenge$ | async as currentChallenge"
-  class="flex flex-col gap-6 p-6 justify-center items-center container mx-auto">
-  <div class="laptop:w-[700px] flex flex-col gap-6 justify-center container mx-auto">
+<section
+  *ngIf="currentChallenge$ | async as currentChallenge"
+  class="flex flex-col gap-6 p-6 justify-center items-center container mx-auto"
+>
+  <div
+    class="laptop:w-[700px] flex flex-col gap-6 justify-center container mx-auto"
+  >
     <div class="flex justify-between items-center laptop:w-full min-w-[320px]">
       <h2 class="font-semibold text-xl">{{ currentChallenge.name }}</h2>
       <span>{{ daysRemaining }} days remaining</span>
@@ -9,18 +13,26 @@
       <h3>About this challenge:</h3>
       <p>{{ currentChallenge.description }}</p>
     </article>
-    <app-challenge-standings [currentChallenge]="currentChallenge"
-      class="laptop:w-full min-w-[320px]"></app-challenge-standings>
+    <app-challenge-standings
+      [currentChallenge]="currentChallenge"
+      class="laptop:w-full min-w-[320px]"
+    ></app-challenge-standings>
     <div class="flex flex-col gap-7">
       <mat-card class="min-w-[320px] max-w-[600px] laptop:max-w-full">
         <mat-card-header>
           <mat-card-title>Progress</mat-card-title>
         </mat-card-header>
         <mat-card-content class="flex">
-          <app-challenge-weight-chart></app-challenge-weight-chart>
+          <app-challenge-weight-chart
+            [currentChallenge]="currentChallenge"
+          ></app-challenge-weight-chart>
           <div class="flex flex-col gap-4 items-center">
-            <button mat-raised-button color="accent" (click)="openDialog()">New weight entry</button>
-            <p class="text-red-600" *ngIf="weightEntryError$ | async as error">{{error}}</p>
+            <button mat-raised-button color="accent" (click)="openDialog()">
+              New weight entry
+            </button>
+            <p class="text-red-600" *ngIf="weightEntryError$ | async as error">
+              {{ error }}
+            </p>
           </div>
         </mat-card-content>
       </mat-card>
@@ -29,13 +41,23 @@
           <mat-card-title>Participants</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <a *ngFor="let user of currentChallenge.participants" [matTooltip]="user.name"
-            [routerLink]="['/user-profile', user.id]" class="mx-auto">
-            <img [src]="user.picture" alt="User portrait" class="w-12 h-12 rounded-full" />
+          <a
+            *ngFor="let user of currentChallenge.participants"
+            [matTooltip]="user.name"
+            [routerLink]="['/user-profile', user.id]"
+            class="mx-auto"
+          >
+            <img
+              [src]="user.picture"
+              alt="User portrait"
+              class="w-12 h-12 rounded-full"
+            />
           </a>
         </mat-card-content>
       </mat-card>
     </div>
-    <button mat-raised-button (click)="resetView()" class="mx-auto">Back</button>
+    <button mat-raised-button (click)="resetView()" class="mx-auto">
+      Back
+    </button>
   </div>
 </section>
