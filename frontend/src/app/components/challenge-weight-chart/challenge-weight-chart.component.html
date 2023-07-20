@@ -1,2 +1,13 @@
-<p>challenge-weight-chart works!</p>
-<pre *ngIf="challengeWeights$ | async as challengeWeights">{{ challengeWeights | json}}</pre>
+<ng-container *ngIf="!isLoading; else loading">
+  <div class="flex justify-center items-center h-[400px]">
+    <canvas
+      baseChart
+      [data]="lineChartData"
+      [options]="lineChartOptions"
+      [type]="lineChartType"
+      class=""
+    ></canvas>
+  </div>
+</ng-container>
+
+<ng-template #loading> Loading... </ng-template>
