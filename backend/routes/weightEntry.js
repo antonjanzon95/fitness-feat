@@ -4,6 +4,7 @@ const WeightEntry = require('../models/weightEntrySchema');
 const { validateAccessToken } = require('../middleware/auth0.middleware');
 const { attachUserToRequest } = require('../middleware/attach-user.middleware');
 const User = require('../models/userSchema');
+const Challenge = require('../models/challengeSchema');
 
 router.get(
   '/',
@@ -51,9 +52,14 @@ router.post(
     const { weight, date = new Date(), challengeId } = req.body;
 
     const user = await User.findById(dbUser._id);
+    const challenge = await Challenge.findById(challengeId);
 
     if (!user) {
       return res.status(404).json({ message: "User doesn't exist" });
+    }
+
+    if (!challenge) {
+      return res.status(404).json({ message: "Challenge doesn't exist" });
     }
 
     try {
@@ -95,7 +101,7 @@ router.post(
         }
       }
 
-      await WeightEntry.create({
+      const newWeightEntry = await WeightEntry.create({
         user: user._id,
         weight: weight,
         timestamp: date,
@@ -107,8 +113,10 @@ router.post(
       }
 
       user.currentWeight = weight;
-
       await user.save();
+
+      challenge.weightEntries.push(newWeightEntry._id);
+      await challenge.save();
 
       return res.status(201).json(user);
     } catch (error) {
